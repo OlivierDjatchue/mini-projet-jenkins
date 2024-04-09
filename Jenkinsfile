@@ -1,6 +1,6 @@
 pipeline{
     environment {
-        INAGE_NAME ="static_sebsite"
+        INAGE_NAME ="static_website_img"
         INAGE_TAG ="latest"
         STAGING = "static_website-staging"
         PRODUCTION = "static_website-prod"
@@ -11,7 +11,7 @@ pipeline{
             agent any
             steps{
                 script {
-                    sh 'docker build -t olivierdja/$INAGE_NAME:$INAGE_NAME .' 
+                    sh 'docker build -t olivierdja/$INAGE_NAME:$INAGE_TAG .' 
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline{
                 script {
                     sh '''
 // change the URL with the URL of your VM
-                    curl http://54.227.75.184:83 || grep "Adipiscing magna sed dolor elit."  
+                    curl http://54.227.75.184:83 || grep "DIMENSION"  
                     sleep 5
                     
                     '''
