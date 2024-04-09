@@ -45,7 +45,7 @@ pipeline{
                 script {
                     sh '''
 // change the URL with the URL of your VM
-                    curl http://54.89.217.220:83 || grep "Adipiscing magna sed dolor elit."  
+                    curl http://54.227.75.184 || grep "Adipiscing magna sed dolor elit."  
                     sleep 5
                     
                     '''
