@@ -1,9 +1,9 @@
 pipeline{
     environment {
-        INAGE_NAME ="Static_Website"
+        INAGE_NAME ="static_sebsite"
         INAGE_TAG ="latest"
-        STAGING = "Static_Website-staging"
-        PRODUCTION = "Static_Website-prod"
+        STAGING = "static_website-staging"
+        PRODUCTION = "static_website-prod"
     }
     agent none
     stages{
