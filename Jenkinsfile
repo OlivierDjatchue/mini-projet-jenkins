@@ -31,7 +31,7 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    docker run --name=$INAGE_NAME -dp 83:5000 -e PORT=5000 olivierdja/$INAGE_NAME:$INAGE_NAME
+                    docker run --name=$INAGE_NAME -dp 83:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_NAME
                     sleep 5
                     
                     '''
@@ -45,7 +45,7 @@ pipeline{
                 script {
                     sh '''
 // change the URL with the URL of your VM
-                    curl http://54.227.75.184 || grep "Adipiscing magna sed dolor elit."  
+                    curl http://54.89.217.220:83 || grep "Adipiscing magna sed dolor elit."  
                     sleep 5
                     
                     '''
