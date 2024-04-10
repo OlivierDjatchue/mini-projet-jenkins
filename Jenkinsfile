@@ -31,7 +31,7 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    docker run --name=$INAGE_NAME -dp 84:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_TAG
+                    docker run --name=$INAGE_NAME -dp 83:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_TAG
                     sleep 5
                     
                     '''
@@ -45,8 +45,8 @@ pipeline{
                 script {
                     sh '''
 // change the URL with the URL of your VM
-                    curl http://54.227.75.184:83 || grep "DIMENSION"  
-                    sleep 5
+                    curl http://54.198.52.98:83 || grep "DIMENSION"  
+                    
                     
                     '''
                 }
