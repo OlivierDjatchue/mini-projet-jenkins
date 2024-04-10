@@ -44,7 +44,6 @@ pipeline{
             steps{
                 script {
                     sh '''
-// change the URL with the URL of your VM
                     curl -I http://54.198.52.98:83 | grep HTTP  
                     
                     '''
