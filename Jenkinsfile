@@ -1,9 +1,9 @@
 pipeline{
     environment {
-        INAGE_NAME ="static_website_img"
+        INAGE_NAME ="website_img"
         INAGE_TAG ="latest"
-        STAGING = "static_website-staging"
-        PRODUCTION = "static_website-prod"
+        STAGING = "website-staging"
+        PRODUCTION = "website-prod"
         ENDPOINT="http://18.206.168.91"
     }
     agent none
