@@ -4,6 +4,7 @@ pipeline{
         INAGE_TAG ="latest"
         STAGING = "static_website-staging"
         PRODUCTION = "static_website-prod"
+        URL = "http://18.206.168.91"
     }
     agent none
     stages{
@@ -44,7 +45,7 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    curl -I http://54.198.52.98:83 | grep HTTP  
+                    curl -I $URL:83 | grep HTTP  
                     
                     '''
                 }
