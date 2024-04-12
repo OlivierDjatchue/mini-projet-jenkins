@@ -5,6 +5,7 @@ pipeline{
         STAGING = "olivierdja-website-staging"
         PRODUCTION = "olivierdja-website-prod"
         ENDPOINT="http://54.227.93.106"
+        DOCKERHUB_PASSWORD = credentials('dockerhub_passowrd')
     }
     agent none
     stages{
@@ -51,6 +52,20 @@ pipeline{
                 }
             }
         }
+            stage('Push Image on DockerHUB'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    echo $DOCKERHUB_PASSWORD | docker login -u olivierdja --password-stdin
+                    docker tag $INAGE_NAME olivierdja/$INAGE_NAME:latest
+                    docker push  olivierdja/$INAGE_NAME:latest
+            
+                    '''
+                }
+            }
+        }
+
         stage('Clean container'){
             agent any
             steps{
