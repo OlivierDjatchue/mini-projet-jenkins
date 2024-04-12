@@ -4,7 +4,7 @@ pipeline{
         INAGE_TAG ="latest"
         STAGING = "olivierdja-website-staging"
         PRODUCTION = "olivierdja-website-prod"
-        ENDPOINT="http://18.206.168.91"
+        ENDPOINT="http://54.227.93.106"
     }
     agent none
     stages{
