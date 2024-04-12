@@ -45,7 +45,7 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    curl -I $ENDPOINT:83 | grep HTTP  
+                    curl -I $ENDPOINT:83 | grep "Dimension"
                     
                     '''
                 }
