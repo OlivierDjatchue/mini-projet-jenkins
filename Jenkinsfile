@@ -5,7 +5,7 @@ pipeline{
         STAGING = "olivierdja-website-staging"
         PRODUCTION = "olivierdja-website-prod"
         ENDPOINT="http://52.71.253.197"
-        DOCKERHUB_PASSWORD = credentials('dockerhub_passowrd')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_passowrd')
     }
     agent none
     stages{
@@ -57,8 +57,8 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    docker login -u $DOCKERHUB_ID -p $DOCKERHUB_PASSWORD
                     docker tag $INAGE_NAME $DOCKERHUB_ID/$INAGE_NAME:latest
+                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdtin
                     docker push  $DOCKERHUB_ID/$INAGE_NAME:latest
             
                     '''
