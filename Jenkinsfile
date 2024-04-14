@@ -57,9 +57,8 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    docker tag $INAGE_NAME $DOCKERHUB_ID/$INAGE_NAME:latest
                     echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdtin
-                    docker push  $DOCKERHUB_ID/$INAGE_NAME:latest
+                    docker push  olivierdja/$INAGE_NAME:latest
             
                     '''
                 }
