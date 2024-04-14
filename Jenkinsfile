@@ -4,7 +4,7 @@ pipeline{
         INAGE_TAG ="latest"
         STAGING = "olivierdja-website-staging"
         PRODUCTION = "olivierdja-website-prod"
-        ENDPOINT="http://52.55.171.198"
+        ENDPOINT="http://52.71.253.197"
         DOCKERHUB_PASSWORD = credentials('dockerhub_passowrd')
     }
     agent none
