@@ -57,7 +57,7 @@ pipeline{
             steps{
                 script {
                     sh '''
-                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdtin
+                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                     docker push  olivierdja/$INAGE_NAME:latest
             
                     '''
