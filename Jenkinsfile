@@ -54,6 +54,9 @@ pipeline{
         }
             stage('Push Image on DockerHUB'){
             agent any
+              when{
+                expression { GIT_BRANCH == 'origin/main'}
+            }
             steps{
                 script {
                     sh '''
