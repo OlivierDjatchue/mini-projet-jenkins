@@ -52,21 +52,6 @@ pipeline{
                 }
             }
         }
-            stage('Push Image on DockerHUB'){
-            agent any
-              when{
-                expression { GIT_BRANCH == 'origin/main'}
-            }
-            steps{
-                script {
-                    sh '''
-                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                    docker push  olivierdja/$INAGE_NAME:latest
-            
-                    '''
-                }
-            }
-        }
 
         stage('Clean container'){
             agent any
