@@ -207,7 +207,7 @@ After verifying the staging deployment, the image is then deployed to the produc
 >![image](images/deploy_prod.png)
 
 1.  **Opening the App**: Open the app in the browser.
->![image](images/launching_app_ec2.png)
+>![image](images/lauching_app_ec2.png)
 
 1.  **Opening the App**: Open The app with the Heroku Url.
 >![image](images/APP_ON_Heruku.png)
