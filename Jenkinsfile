@@ -17,17 +17,7 @@ pipeline{
                 }
             }
         }
-        stage('Clean Up Existing Containers'){
-            agent any
-            steps{
-                script {
-                    sh '''
-                    docker rm -f $INAGE_NAME || echo "Container does not exist"
-                    
-                    '''
-                }
-            }
-        }
+
         stage('Launch Docker Container'){
             agent any
             steps{
@@ -47,6 +37,17 @@ pipeline{
                 script {
                     sh '''
                     curl $ENDPOINT:83 | grep "Dimension"
+                    
+                    '''
+                }
+            }
+        }
+        stage('Clean Up Existing Containers'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    docker rm -f $INAGE_NAME || echo "Container does not exist"
                     
                     '''
                 }
