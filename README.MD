@@ -1,3 +1,11 @@
+## Firstname : Olivier
+
+## Surname : Djatchue-Tchokothe
+
+## For Eazytraining's 18th DevOps Bootcamp
+
+## Period : march-april-may
+
 # Nginx Website Deployment with Jenkins Pipeline
 
 This project demonstrates a Jenkins pipeline for deploying an Nginx website to Heroku. The pipeline is triggered by a GitHub webhook on every push to the repository. Below is a detailed explanation of each step in the pipeline.
@@ -179,24 +187,31 @@ After verifying the staging deployment, the image is then deployed to the produc
                 }
            
 ```
-## Screenshots
-
-Include screenshots of the following:
-
-1.  **Jenkins Job Configuration**: Display the configuration settings for the Jenkins pipeline job.
-    
-2.  **GitHub Webhook**: Show the webhook configuration in your GitHub repository.
-    
-3.  **Jenkins Pipeline Steps**: Screenshots of each step in the Jenkins pipeline.
+## Screenshots  
+1.  **Jenkins Pipeline Steps**: Screenshots of each step in the Jenkins pipeline.
+    - Overview
+>![image](images/stage_view.png)
     -   Build Docker Image
+>![image](images/docker_build.png)
     -   Clean Up Existing Containers
+>![image](images/cleanUP.png)
     -   Launch Docker Container
+>![image](images/run_container.png)
     -   Run Tests
+>![image](images/Run_Test.png)
     -   Upload Image to DockerHub
+>![image](images/push_to_docker_hub.png)
     -   Deploy to Heroku Staging
+>![image](images/deploy_staging.png)
     -   Deploy to Heroku Production
+>![image](images/deploy_prod.png)
 
-(Insert individual screenshots here as needed)
+1.  **Opening the App**: Open the app in the browser.
+>![image](images/launching_app_ec2.png)
+
+1.  **Opening the App**: Open The app with the Heroku Url.
+>![image](images/APP_ON_Heruku.png)
+
 
 ## Conclusion
 
