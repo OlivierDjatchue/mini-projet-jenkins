@@ -9,7 +9,7 @@ pipeline{
     }
     agent none
     stages{
-        stage('Build image'){
+        stage('Build Docker Image'){
             agent any
             steps{
                 script {
@@ -17,7 +17,7 @@ pipeline{
                 }
             }
         }
-        stage('Delete container if exist'){
+        stage('Clean Up Existing Containers'){
             agent any
             steps{
                 script {
@@ -28,11 +28,11 @@ pipeline{
                 }
             }
         }
-        stage('Run container'){
+        stage('Launch Docker Container'){
             agent any
             steps{
                 script {
-                    sh '''
+                    '''bash
                     docker run --name=$INAGE_NAME -dp 83:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_TAG
                     sleep 5
                     
@@ -41,7 +41,7 @@ pipeline{
             }
         }
 
-        stage('Test image'){
+        stage('Run Tests'){
             agent any
             steps{
                 script {
@@ -53,7 +53,7 @@ pipeline{
             }
         }
 
-        stage('Push Image on DockerHUB'){
+        stage('Upload Image to DockerHub'){
             agent any
             steps{
                 script {
@@ -65,19 +65,7 @@ pipeline{
                 }
             }
         }
-
-        stage('Clean container'){
-            agent any
-            steps{
-                script {
-                    sh '''
-                    docker stop $INAGE_NAME
-                    docker rm $INAGE_NAME
-                    '''
-                }
-            }
-        }
-        stage('push imahe in staging and deploy'){
+        stage('Deploy to Heroku Staging'){
             when{
                 expression { GIT_BRANCH == 'origin/master'}
             }
@@ -98,7 +86,7 @@ pipeline{
                 }
             }
         }
-        stage('push imahe in PRODUCTION and deploy'){
+        stage('Deploy to Heroku Production'){
             when{
                 expression { GIT_BRANCH == 'origin/master'}
             }
