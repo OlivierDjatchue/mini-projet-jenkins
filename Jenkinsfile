@@ -17,12 +17,23 @@ pipeline{
                 }
             }
         }
+         stage('Clean Up Existing Containers'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    docker rm -f $INAGE_NAME || echo "Container does not exist"
+                    
+                    '''
+                }
+            }
+        }
 
         stage('Launch Docker Container'){
             agent any
             steps{
                 script {
-                    '''bash
+                    '''
                     docker run --name=$INAGE_NAME -dp 83:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_TAG
                     sleep 5
                     
@@ -42,17 +53,7 @@ pipeline{
                 }
             }
         }
-        stage('Clean Up Existing Containers'){
-            agent any
-            steps{
-                script {
-                    sh '''
-                    docker rm -f $INAGE_NAME || echo "Container does not exist"
-                    
-                    '''
-                }
-            }
-        }
+       
 
         stage('Upload Image to DockerHub'){
             agent any
