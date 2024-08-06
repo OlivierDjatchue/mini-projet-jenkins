@@ -43,128 +43,142 @@ Create a new pipeline job in Jenkins and link it to your GitHub repository. Ensu
 
 This step uses the `Dockerfile` in your repository to build a Docker image of your Nginx website.
 
-
-
-`stage('Build Docker Image') {
-    steps {
-        script {
-            dockerImage = docker.build("your-dockerhub-username/your-image-name:${env.BUILD_ID}")
+```bash
+stages{
+        stage('Build Docker Image'){
+            agent any
+            steps{
+                script {
+                    sh 'docker build -t olivierdja/$INAGE_NAME:$INAGE_TAG .' 
+                }
+            }
         }
-    }
-}` 
+```
 
 ### 2. Clean Up Existing Containers
 
 Before launching a new container, the pipeline checks for and removes any existing containers from previous runs.
 
-groovy
-
-Code kopieren
-
-`stage('Clean Up Existing Containers') {
-    steps {
-        script {
-            try {
-                sh 'docker rm -f nginx-container || true'
-            } catch (Exception e) {
-                echo 'No existing container to remove'
+```bash
+ stage('Clean Up Existing Containers'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    docker rm -f $INAGE_NAME || echo "Container does not exist"
+                    
+                    '''
+                }
             }
         }
-    }
-}` 
+```
 
 ### 3. Launch Docker Container
 
 The built Docker image is used to start a new container.
 
-groovy
-
-Code kopieren
-
-`stage('Launch Docker Container') {
-    steps {
-        script {
-            dockerImage.run('-d --name nginx-container -p 80:80')
+```bash
+ stage('Launch Docker Container'){
+            agent any
+            steps{
+                script {
+                    '''bash
+                    docker run --name=$INAGE_NAME -dp 83:80 -e PORT=80 olivierdja/$INAGE_NAME:$INAGE_TAG
+                    sleep 5
+                    
+                    '''
+                }
+            }
         }
-    }
-}` 
-
+```
+    
 ### 4. Run Tests
 
 A test is performed to ensure the website is working correctly by using `curl` and `grep`.
 
-groovy
-
-Code kopieren
-
-`stage('Run Tests') {
-    steps {
-        script {
-            sh 'sleep 10' // Wait for the container to be fully up
-            sh 'curl localhost | grep "dimension"'
+```bash
+        stage('Run Tests'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    curl $ENDPOINT:83 | grep "Dimension"
+                    
+                    '''
+                }
+            }
         }
-    }
-}` 
-
+```
 ### 5. Upload Image to DockerHub
 
 If the tests pass, the Docker image is uploaded to DockerHub.
-
-groovy
-
-Code kopieren
-
-`stage('Upload Image to DockerHub') {
-    steps {
-        script {
-            docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
-                dockerImage.push("${env.BUILD_ID}")
+```bash
+  stage('Upload Image to DockerHub'){
+            agent any
+            steps{
+                script {
+                    sh '''
+                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                    docker push  olivierdja/$INAGE_NAME:latest
+            
+                    '''
+                }
             }
         }
-    }
-}` 
+```
 
 ### 6. Deploy to Heroku Staging
 
 Deploy the Docker image to a Heroku staging environment.
-
-groovy
-
-Code kopieren
-
-`stage('Deploy to Heroku Staging') {
-    steps {
-        script {
-            sh '''
-            heroku container:login
-            heroku container:push web --app your-heroku-staging-app
-            heroku container:release web --app your-heroku-staging-app
-            '''
+```bash
+   stage('Deploy to Heroku Staging'){
+            when{
+                expression { GIT_BRANCH == 'origin/master'}
+            }
+            agent any
+            environment{
+                HEROKU_API_KEY = credentials('heroku_api_key')
+            }
+            steps{
+                script {
+                    sh '''
+                    npm i -g heroku@7.68.0
+                    heroku container:login
+                    heroku create $STAGING || echo "project already exist"
+                    heroku container:push -a $STAGING web
+                    heroku container:release -a $STAGING web
+                    
+                    '''
+                }
+            }
         }
-    }
-}` 
-
+```
+        
 ### 7. Deploy to Heroku Production
 
 After verifying the staging deployment, the image is then deployed to the production environment.
-
-groovy
-
-Code kopieren
-
-`stage('Deploy to Heroku Production') {
-    steps {
-        input message: 'Deploy to production?', ok: 'Deploy'
-        script {
-            sh '''
-            heroku container:login
-            heroku container:push web --app your-heroku-production-app
-            heroku container:release web --app your-heroku-production-app
-            '''
-        }
-    }
-}` 
-
+```bash
+   stage('Deploy to Heroku Production'){
+            when{
+                expression { GIT_BRANCH == 'origin/master'}
+            }
+            agent any
+            environment{
+                HEROKU_API_KEY = credentials('heroku_api_key')
+            }
+            steps{
+                script {
+                    sh '''
+                  npm i -g heroku@7.68.0
+                  heroku container:login
+                  heroku create $PRODUCTION || echo "project already exist"
+                  heroku container:push -a $PRODUCTION web
+                  heroku container:release -a $PRODUCTION web
+                    
+                    '''
+                }
+           
+```
 ## Screenshots
 
 Include screenshots of the following:
